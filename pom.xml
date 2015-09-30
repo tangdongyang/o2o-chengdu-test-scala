@@ -19,5 +19,10 @@
             <artifactId>scalamock-scalatest-support_2.11</artifactId>
             <version>3.2.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.scalacheck</groupId>
+            <artifactId>scalacheck_2.11</artifactId>
+            <version>1.12.0</version>
+        </dependency>
     </dependencies>
 </project>
