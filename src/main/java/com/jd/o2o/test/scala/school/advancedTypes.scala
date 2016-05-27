@@ -61,6 +61,24 @@ object AdvancedTypesTest extends App {
   val list1 = tupleize(List(1), List(2))
   val some1 = tupleize(Some(1), Some(2))
   println(list1 + ", " + some1)
+
+  // 结构类型
+  // Scala 支持 结构类型 structural types — 类型需求由接口 构造 表示，而不是由具体的类型表示。
+  // 这可能在很多场景都是相当不错的，但这个实现中使用了反射，所以要注意性能！
+  def foo (x: { def get: Int }) = 123 + x.get
+  println( foo(new { def get = 10 }) )
+
+  // 抽象类型成员：在特质中，你可以让类型成员保持抽象。
+//  println( (new Foo { type A = Int; val x = 123 }).getX )
+//  println( (new Foo { type A = String; val x = "Hey" } ).getX )
+
+  // 可以使用hash操作符来引用一个抽象类型的变量
+  val foo1: Foo1[List]#t[Int] = List(1)
+
+  // 类型擦除和清单
+  // 正如我们所知道的，类型信息在编译的时候会因为 擦除 而丢失。
+  // Scala的 清单（Manifests） 功能，使我们能够选择性地恢复类型信息。清单提供了一个隐含值，根据需要由编译器生成。
+  (new MakeFoo[String]()).make
 }
 
 // 这是说 A 必须“可被视”为 Int 。
@@ -69,3 +87,9 @@ class Container[A <% Int] { def addInt(x: A) = 123 + x }
 class Container2[A](value: A) { def addInt(implicit evidence: A =:= Int) = 123 + value }
 
 trait Container3[M[_]] { def put[A](x: A): M[A]; def get[A](m: M[A]): A; }
+
+trait Foo { type A; val x: A; def getX: A = x }
+
+trait Foo1[M[_]] { type t[A] = M[A] }
+
+class MakeFoo[A](implicit manifest: Manifest[A]) { def make: A = manifest.erasure.newInstance.asInstanceOf[A] }
