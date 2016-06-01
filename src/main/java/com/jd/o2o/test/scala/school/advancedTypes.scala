@@ -69,8 +69,8 @@ object AdvancedTypesTest extends App {
   println( foo(new { def get = 10 }) )
 
   // 抽象类型成员：在特质中，你可以让类型成员保持抽象。
-//  println( (new Foo { type A = Int; val x = 123 }).getX )
-//  println( (new Foo { type A = String; val x = "Hey" } ).getX )
+  println( (new Foo { type A = Int; val x = 123 }).getX )
+  println( (new Foo { type A = String; val x = "Hey" } ).getX )
 
   // 可以使用hash操作符来引用一个抽象类型的变量
   val foo1: Foo1[List]#t[Int] = List(1)

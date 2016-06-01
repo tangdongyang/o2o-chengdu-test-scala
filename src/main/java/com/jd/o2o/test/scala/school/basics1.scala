@@ -5,12 +5,12 @@ package com.jd.o2o.test.scala.school
  */
 
 // apply方法
-class Foo {}
+class FooT {}
 
 object FooMaker {
   def apply() = {
     println("foo maker apply")
-    new Foo()
+    new FooT()
   }
 }
 
